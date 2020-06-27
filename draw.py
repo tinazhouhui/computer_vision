@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 
-penguins = cv2.imread('penguins.jpg', 0)
+penguins = cv2.imread('input/penguins.jpg', -1)
 
 image = np.zeros((512, 512, 3), np.uint8) # each zero has specific length, uint8 max 255
 # 3 cause RGB depth
@@ -20,11 +20,11 @@ for y in range(length_of_square):
 square = image[0:120, 0:120]
 image[120:240, 120:240] = square
 
-
 head = penguins[110:310, 750:970]
 head = np.flip(head, 1)
 penguins[0:200, 0:220] = head
 
-cv2.imwrite("image.jpg", image)
-cv2.imwrite("penguins_bnw.jpg", penguins)
+penguins = cv2.circle(penguins, (1023, 78), 56, (0, 255, 255), -1)
+
+cv2.imwrite("output/penguins_bnw.jpg", penguins)
 
