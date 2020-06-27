@@ -14,3 +14,10 @@ python3 draw.py
 ```bash
 pip3 install -r requirements.txt
 ```
+
+## Remote Ubuntu access
+- PyCharm terminal:
+```bash
+ssh -p 2222 tina@127.0.0.1
+password Ubuntu
+```
