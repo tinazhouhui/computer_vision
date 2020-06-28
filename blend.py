@@ -12,7 +12,5 @@ sky_resized = cv2.resize(sky, dsize)
 
 blended = cv2.addWeighted(penguins, 0.5, sky_resized, 0.5, 10)
 
-
-
 cv2.imwrite("output/sky_modified.jpg", sky_resized)
 cv2.imwrite("output/blended.jpg", blended)

@@ -10,7 +10,7 @@ default = [
     [60, 62, 64, 66, 68, 70, 72, 74, ],
 ]
 
-default = cv2.imread('input/sky.jpg', 0)
+default = cv2.imread('input/shaft.png', 0)
 
 constant = 1
 matrix = [
