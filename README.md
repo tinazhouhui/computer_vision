@@ -4,9 +4,17 @@
 
 All about discovery of image processing, computer vision and Open CV.
 
+## Includes
+- draw.py - basic manipulation with images
+- blend.py - addWeighted
+- bitwise_operations.py 
+- convo.py - convolution and kernel
+- gamma.py - gamma adjustment via linear stretching
+- coin_recognition.py
+
 ## Run
 ```bash
-python3 draw.py
+python3 {filename}
 ```
 
 ## Requirements

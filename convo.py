@@ -1,3 +1,9 @@
+"""
+Convolution
+learning about the Kernel image processing and convolution matrices
+https://en.wikipedia.org/wiki/Kernel_(image_processing)#:~:text=In%20image%20processing%2C%20a%20kernel,a%20kernel%20and%20an%20image.
+"""
+
 import cv2
 import numpy as np
 

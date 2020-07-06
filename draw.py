@@ -1,3 +1,9 @@
+"""
+OpenCV learning - image manipulation
+- draw a square
+- ROI
+"""
+
 import numpy as np
 import cv2
 

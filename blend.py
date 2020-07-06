@@ -1,3 +1,7 @@
+"""
+exercise to try out blending two images together.
+"""
+
 import cv2
 
 sky = cv2.imread('input/sky.jpg', 1)
