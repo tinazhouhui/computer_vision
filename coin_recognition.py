@@ -18,5 +18,9 @@ max_r = 100
 coins = cv2.imread('input/coins.jpg', 0)
 coins_edge = cv2.Canny(coins, 127, 255)
 
+img = np.zeros((max_r*2, max_r*2, 3), np.uint8)
+circle = cv2.circle(img, (max_r, max_r), max_r, (255, 255, 255))
+
+cv2.imwrite("output/circle.jpg", circle)
 
 cv2.imwrite("output/coins_circled.jpg", coins_edge)
