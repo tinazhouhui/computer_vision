@@ -1,6 +1,8 @@
 from sys import argv
 
 # list of all the possible transformations
+from image_processing.convo import create_transformed_outputs
+
 actions = {'draw': 'basic manipulation with images',
            'blend': 'blending two images together (addWeighted)',
            'bitwise-operations': 'bitwise operations',
@@ -14,7 +16,11 @@ if len(argv) > 1: #checks for argument inputed in console
         print('Argument does not exist, please choose an existing argument from the list below:\n')
         for action, description in actions.items():
             print("\u2022\033[1m " + action + '\033[0m - ' + description)
+
+    if argv[1] == 'convolution':
+        create_transformed_outputs()
 else:
     print('\nPlease add an argument behind "start.py" from the list below:\n')
     for action, description in actions.items():
         print("\u2022\033[1m " + action + '\033[0m - ' + description)
+
