@@ -2,20 +2,19 @@
 
 [![Codeac](https://static.codeac.io/badges/2-274741179.svg "Codeac.io")](https://app.codeac.io/github/tinazhouhui/image_procesing)
 
-All about discovery of image processing, computer vision and Open CV.
-
-## Includes
-- draw.py - basic manipulation with images
-- blend.py - addWeighted
-- bitwise_operations.py 
-- convo.py - convolution and kernel
-- gamma.py - gamma adjustment via linear stretching
-- coin_recognition.py
+All about discovery of computer vision and Open CV.
 
 ## Run
 ```bash
-python3 {filename}
+python3 start.py [insert argument]
 ```
+#### Available arguments
+- draw - basic manipulation with images
+- blend - blending two images together (addWeighted)
+- bitwise operations
+- convolution - will run all available convolutions
+- gamma correction - gamma adjustment via linear stretching
+- coin recognition
 
 ## Requirements
 - Open CV
@@ -27,5 +26,8 @@ pip3 install -r requirements.txt
 - PyCharm terminal:
 ```bash
 ssh -p 2222 tina@127.0.0.1
-password Ubuntu
+```
+- If you are using Windows, Ubuntu and PyCharm community edition together
+```bash
+sudo service ssh start
 ```

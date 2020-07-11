@@ -6,7 +6,7 @@ from image_processing.convo import create_transformed_outputs
 actions = {'draw': 'basic manipulation with images',
            'blend': 'blending two images together (addWeighted)',
            'bitwise-operations': 'bitwise operations',
-           'convolution': 'convolution and kernel',
+           'convolution': 'will run all available convolutions',
            'gamma-correction': 'gamma adjustment via linear stretching',
            'coin-recognition': 'identify coins',
            }
