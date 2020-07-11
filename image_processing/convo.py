@@ -59,7 +59,6 @@ def select_kernel(transformation):
     Takes the transformation desired and selects the correct constant and matrix to return the
     correct kernel.
     """
-    global KERNELS
 
     if transformation not in KERNELS:
         print('argument does not exist')
@@ -86,15 +85,15 @@ def image_convolution(original_image, transformation):
 
     transformed_image = np.zeros((height, width))
 
-    for y in range(matrix_halfsize, len(original_image) - matrix_halfsize):
-        for x in range(matrix_halfsize, len(original_image[y]) - matrix_halfsize):
+    for y_coor in range(matrix_halfsize, len(original_image) - matrix_halfsize):
+        for x_coor in range(matrix_halfsize, len(original_image[y_coor]) - matrix_halfsize):
 
             transformed_pixel = 0
 
             for i in range(-matrix_halfsize, matrix_halfsize + 1):
                 for j in range(-matrix_halfsize, matrix_halfsize + 1):
-                    transformed_pixel += original_image[y + i][x + j] * matrix[i + 1][j + 1]
-            transformed_image[y][x] = transformed_pixel
+                    transformed_pixel += original_image[y_coor + i][x_coor + j] * matrix[i + 1][j + 1]
+            transformed_image[y_coor][x_coor] = transformed_pixel
 
     return transformed_image
 
@@ -124,6 +123,7 @@ def edge_detection():
     """
     Uses same principles of convolution but just edge detection
     """
+
     original_image_edge = cv2.imread('input_image/wheels.jpg', 0)
     edge = image_convolution(original_image_edge, 'edge-detection')
     cv2.imwrite('output_image/convolution_transformed/edge.jpg', edge)
