@@ -9,10 +9,13 @@ All about discovery of computer vision and Open CV.
 python3 start.py [insert argument]
 ```
 #### Available arguments
+**FOR NOW ONLY CONVOLUTION WORKS**
+
 - draw - basic manipulation with images
 - blend - blending two images together (addWeighted)
 - bitwise operations
 - convolution - will run all available convolutions
+- edge detection
 - gamma correction - gamma adjustment via linear stretching
 - coin recognition
 
