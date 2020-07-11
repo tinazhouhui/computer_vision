@@ -5,8 +5,8 @@ https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_core/py_
 
 import cv2
 
-penguins = cv2.imread('input/penguins.jpg')
-logo = cv2.imread('input/codeac.png', 1)
+penguins = cv2.imread('input_image/penguins.jpg')
+logo = cv2.imread('input_image/codeac.png', 1)
 
 rows, cols, channels = logo.shape
 
@@ -23,10 +23,10 @@ logo_fg = cv2.bitwise_and(logo, logo, mask = mask_inv)
 output = cv2.add(penguins_bg, logo_fg)
 penguins[0:rows, 0:cols] = output
 
-cv2.imwrite('output/logo_gray.jpg', mask)
-cv2.imwrite('output/penguins_bg.jpg', penguins_bg)
-cv2.imwrite('output/logo_fg.jpg', logo_fg)
-cv2.imwrite('output/penguins_logo.jpg', penguins)
+cv2.imwrite('output_image/logo_gray.jpg', mask)
+cv2.imwrite('output_image/penguins_bg.jpg', penguins_bg)
+cv2.imwrite('output_image/logo_fg.jpg', logo_fg)
+cv2.imwrite('output_image/penguins_logo.jpg', penguins)
 
 
 

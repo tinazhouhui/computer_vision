@@ -7,7 +7,7 @@ OpenCV learning - image manipulation
 import numpy as np
 import cv2
 
-penguins = cv2.imread('input/penguins.jpg', -1)
+penguins = cv2.imread('input_image/penguins.jpg', -1)
 
 # draw a square
 image = np.zeros((512, 512, 3), np.uint8) # each zero has specific length, uint8 max 255
@@ -34,6 +34,6 @@ penguins[0:200, 0:220] = head
 
 penguins = cv2.circle(penguins, (1023, 78), 56, (0, 255, 255), -1)
 
-cv2.imwrite("output/penguins_bnw.jpg", penguins)
-cv2.imwrite("output/image.jpg", image)
+cv2.imwrite("output_image/penguins_bnw.jpg", penguins)
+cv2.imwrite("output_image/image.jpg", image)
 

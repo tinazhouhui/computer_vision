@@ -15,7 +15,7 @@ import math
 min_r = 22
 max_r = 38
 
-coins = cv2.imread('input/coins.jpg', 1)
+coins = cv2.imread('input_image/coins.jpg', 1)
 coins_height, coins_width, coins_channel = coins.shape
 coins_resized = cv2.resize(coins, (int(coins_width/2), int(coins_height/2)))
 coins_blurred = cv2.GaussianBlur(coins_resized, (5, 5), cv2.BORDER_DEFAULT)
@@ -85,8 +85,8 @@ for detected_circle in coins_circled[0]:
     x_coor, y_coor, detected_radius = detected_circle
     coins_detected = cv2.circle(coins, (x_coor, y_coor), detected_radius, (0, 0, 255), 1)
 
-cv2.imwrite("output/coins_detected.jpg", coins_detected)
-# cv2.imwrite("output/circles/circle{}.jpg".format(radius), circle)
-# cv2.imwrite("output/coins_blurred.jpg", coins_blurred)
-# cv2.imwrite("output/coins_edge.jpg", coins_edge)
-# cv2.imwrite("output/coins_resized.jpg", coins_resized)
+cv2.imwrite("output_image/coins_detected.jpg", coins_detected)
+# cv2.imwrite("output_image/circles/circle{}.jpg".format(radius), circle)
+# cv2.imwrite("output_image/coins_blurred.jpg", coins_blurred)
+# cv2.imwrite("output_image/coins_edge.jpg", coins_edge)
+# cv2.imwrite("output_image/coins_resized.jpg", coins_resized)

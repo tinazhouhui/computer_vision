@@ -16,7 +16,7 @@ default = [
     [60, 62, 64, 66, 68, 70, 72, 74, ],
 ]
 
-default = cv2.imread('input/shaft.png', 0)
+default = cv2.imread('input_image/shaft.png', 0)
 
 constant = 1
 matrix = [
@@ -47,7 +47,7 @@ for y in range(1, len(default)-1):
                 output_pixel += default[y+j][x+i] * matrix[i+1][j+1]
         transformed[y][x] = output_pixel
 
-cv2.imwrite('output/transformed.jpg', transformed)
+cv2.imwrite('output_image/transformed.jpg', transformed)
 
 
 
