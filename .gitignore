@@ -1,2 +1,4 @@
 .idea
 output_image
+**/*.pyc
+image_processing/__pycache__/convo.cpython-38.pyc
