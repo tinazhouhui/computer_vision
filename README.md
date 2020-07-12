@@ -9,18 +9,16 @@ All about discovery of computer vision and Open CV.
 python3 start.py [insert argument]
 ```
 #### Available arguments
-**FOR NOW ONLY CONVOLUTION WORKS**
-
-- draw - basic manipulation with images
-- blend - blending two images together (addWeighted)
-- bitwise operations
+- blend - blending two images together (using addWeighted)
+- bitwise operations - creates a logo that is inserted to a picture
 - convolution - will run all available convolutions
-- edge detection
+- ~~edge detection - shows different methods of edge detection~~
 - gamma correction - gamma adjustment via linear stretching
-- coin recognition
+- coin detection - compares outputs of manual and Hough detection of circles (coins)
 
 ## Requirements
 - Open CV
+- NumPy
 ```bash
 pip3 install -r requirements.txt
 ```
