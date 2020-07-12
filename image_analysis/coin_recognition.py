@@ -31,7 +31,6 @@ pixel_threshold = 255 * 0.123
 picture_step = 1
 coin_detection = []
 
-
 def coin_center_detect():
     # draw circles
     for radius in range(min_r, max_r):
@@ -70,23 +69,48 @@ def coin_center_detect():
                     coin_detection.append((start_x + radius, start_y + radius, radius)) # center
                     print(('-----------------', start_x + radius, start_y + radius, radius))
 
+    # cv2.imwrite("output_image/circles/circle{}.jpg".format(radius), circle)
+
     return coin_detection
+
+
+def circle_coins():
+
+    coins_circled = coin_center_detect()
+    coins_copy = coins.copy()
+    for detected_circle in coins_circled:
+        x_coor, y_coor, detected_radius = detected_circle
+        coins_detected = cv2.circle(coins_copy, (x_coor * 2, y_coor * 2), detected_radius * 2, (0, 0, 255), 1)
+
+    cv2.imwrite("output_image/coin_detection/coins_detected.jpg", coins_detected)
+    cv2.imwrite("output_image/coins_blurred.jpg", coins_blurred)
+    cv2.imwrite("output_image/coins_edge.jpg", coins_edge)
+    # cv2.imwrite("output_image/coins_resized.jpg", coins_resized)
+
 
 def Hough_circle_detection():
     gray = cv2.cvtColor(coins, cv2.COLOR_BGR2GRAY)
     img = cv2.medianBlur(gray, 5)
-    circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 40, param1=50, param2=30, minRadius=min_r*2, maxRadius=max_r*2)
-    return circles
+    circles = cv2.HoughCircles(
+        img,  # source image
+        cv2.HOUGH_GRADIENT,  # type of detection
+        1,
+        40,
+        param1=50,
+        param2=30,
+        minRadius=min_r*2,  # minimal distance between two centers
+        maxRadius=max_r*2,  # max distance between two centers
+    )
 
-coins_circled = Hough_circle_detection()
+    coins_copy = coins.copy()
 
-for detected_circle in coins_circled[0]:
-    print(detected_circle)
-    x_coor, y_coor, detected_radius = detected_circle
-    coins_detected = cv2.circle(coins, (x_coor, y_coor), detected_radius, (0, 0, 255), 1)
+    for detected_circle in circles[0]:
+        x_coor, y_coor, detected_radius = detected_circle
+        coins_detected = cv2.circle(coins_copy, (x_coor, y_coor), detected_radius, (0, 0, 255), 1)
 
-cv2.imwrite("output_image/coins_detected.jpg", coins_detected)
-# cv2.imwrite("output_image/circles/circle{}.jpg".format(radius), circle)
-# cv2.imwrite("output_image/coins_blurred.jpg", coins_blurred)
-# cv2.imwrite("output_image/coins_edge.jpg", coins_edge)
-# cv2.imwrite("output_image/coins_resized.jpg", coins_resized)
+    cv2.imwrite("output_image/coin_detection/coins_detected_Hough.jpg", coins_detected)
+
+
+def compare_circle_detection():
+    circle_coins()
+    Hough_circle_detection()
