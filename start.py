@@ -9,6 +9,7 @@ actions = {'blend': 'blending two images together (using addWeighted)',
            'convolution': 'will run all available convolutions',
            'gamma-correction': 'gamma adjustment via linear stretching',
            'coin-detection': 'compares outputs of manual and Hough detection of circles (coins)',
+           'edge-detection': 'traces the edges of the image'
            }
 
 if len(argv) > 1: #checks for argument inputed in console
