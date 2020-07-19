@@ -119,11 +119,3 @@ def create_transformed_outputs():
     cv2.imwrite('output_image/convolution_transformed/high_pass.jpg', high_pass)
     cv2.imwrite('output_image/convolution_transformed/low_pass.jpg', low_pass)
 
-def edge_detection():
-    """
-    Uses same principles of convolution but just edge detection
-    """
-
-    original_image_edge = cv2.imread('input_image/wheels.jpg', 0)
-    edge = image_convolution(original_image_edge, 'edge-detection')
-    cv2.imwrite('output_image/convolution_transformed/edge.jpg', edge)
