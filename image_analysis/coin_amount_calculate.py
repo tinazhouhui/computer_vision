@@ -1,6 +1,6 @@
 """
 Coin recognition, real life application
-task: calculate the amount of coins on picture
+task: calculate the value of coins on picture
 """
 
 import cv2
@@ -89,9 +89,6 @@ def calculate_amount():
     radius = []
     coordinates = []
 
-    coins_circled = cv2.imread('../output_image/coin_detection/koruny_test_Hough.jpg', 1)
-    font = cv2.FONT_HERSHEY_SIMPLEX
-
     for detected_circle in circles[0]:
         x_coor, y_coor, detected_radius = detected_circle
         radius.append(detected_radius)
@@ -101,6 +98,8 @@ def calculate_amount():
     tolerance = 0.03
     total_amount = 0
 
+    coins_circled = cv2.imread('../output_image/coin_detection/koruny_test_Hough.jpg', 1)
+    font = cv2.FONT_HERSHEY_SIMPLEX
 
     for coin in circles[0]:
         ratio_to_check = coin[2] / smallest
@@ -119,11 +118,6 @@ def calculate_amount():
 
 
     cv2.imwrite("../output_image/coin_detection/koruny_hodnota.jpg", coins_circled)
-
-
-
-
-
 
 
 calculate_amount()

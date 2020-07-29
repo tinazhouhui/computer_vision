@@ -14,7 +14,7 @@ def bitwise():
     roi = penguins[0:rows, 0:cols]
 
     logo2gray = cv2.cvtColor(logo, cv2.COLOR_BGR2GRAY)
-    ret, mask = cv2.threshold(logo2gray, 150, 255, cv2.THRESH_BINARY)
+    ret, mask = cv2.edge_threshold(logo2gray, 150, 255, cv2.THRESH_BINARY)
     mask_inv = cv2.bitwise_not(mask)
 
     penguins_bg = cv2.bitwise_and(roi, roi, mask = mask)
