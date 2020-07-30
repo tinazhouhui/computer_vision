@@ -38,6 +38,7 @@ pixel_threshold = 255 * 0.123  # the min value of pixel to be considered edge
 next_circle_step = 1  # the amount of pixels to move to start comparing again
 coin_detection = []
 
+
 def coin_center_detect():
     # draw circles
     for radius in range(min_r, max_r):
@@ -56,25 +57,29 @@ def coin_center_detect():
         print(('radius', radius))
 
         # move circle through image
-        for start_y in range(0, max_height - 2 * radius, next_circle_step):
-            for start_x in range(0, max_width - 2 * radius, next_circle_step):
+        for starting_y in range(0, max_height - 2 * radius, next_circle_step):
+            for starting_x in range(0, max_width - 2 * radius, next_circle_step):
                 count = 0
 
                 # cycle through the image of circle
                 for (x, y) in circle_pixels:
-                    image_y = start_y + y
-                    image_x = start_x + x
+                    image_y = starting_y + y
+                    image_x = starting_x + x
 
                     if coins_edge[image_y][image_x] >= pixel_threshold:
                         count += 1
 
                 if count > 50:
                     percentage = round(count / circumference * 100, 2)
-                    print(('candidate', start_x + radius, start_y + radius, radius, percentage))
+                    coor_x = starting_x + radius
+                    coor_y = starting_y + radius
+                    print(('candidate', coor_x, coor_y, radius, percentage))
 
                 if (count / circumference) > edge_threshold:
-                    coin_detection.append((start_x + radius, start_y + radius, radius)) # center
-                    print(('-----------------', start_x + radius, start_y + radius, radius))
+                    coor_x = starting_x + radius
+                    coor_y = starting_y + radius
+                    coin_detection.append((coor_x, coor_y, radius))  # center
+                    print(('-----------------', starting_x + radius, starting_y + radius, radius))
 
     return coin_detection
 
@@ -85,7 +90,7 @@ def circle_coins():
     coins_copy = coins.copy()
     for detected_circle in coins_circled:
         x_coor, y_coor, detected_radius = detected_circle
-        coins_detected = cv2.circle(coins_copy, (x_coor * 2, y_coor * 2), detected_radius * 2, (0, 0, 255), 1)
+        coins_detected = cv2.circle(coins_copy, (x_coor*2, y_coor*2), detected_radius*2, (0, 0, 255), 1)
 
     cv2.imwrite("output_image/coin_detection/coins_detected.jpg", coins_detected)
     cv2.imwrite("output_image/coins_blurred.jpg", coins_blurred)
@@ -93,7 +98,7 @@ def circle_coins():
     # cv2.imwrite("output_image/coins_resized.jpg", coins_resized)
 
 
-def Hough_circle_detection():
+def hough_circle_detection():
     gray = cv2.cvtColor(coins, cv2.COLOR_BGR2GRAY)
     img = cv2.medianBlur(gray, 5)
     circles = cv2.HoughCircles(
@@ -118,4 +123,4 @@ def Hough_circle_detection():
 
 def compare_circle_detection():
     circle_coins()
-    Hough_circle_detection()
+    hough_circle_detection()
