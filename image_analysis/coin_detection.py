@@ -1,45 +1,58 @@
 """
-coin recognition
-task: draw a circle around each coin
-method: comparing a circle by increasing its diameter by 1 px and then see if the edge matches
-the circle at least by some threshold. if yes, change color.
-
-edge detection using Canny
+coin detection using opencv and python
+task: draw a circle around each coin in an image
+method:
+- find the edge using Gaussian and Canny
+- try to fit a circle to the edges by comparing circles of increasing size. Once passed threshold,
+  assume that is the radius of coin and save the coordinates of the center
+- draw the circles to the original image
 """
 
 import cv2
 import numpy as np
 import math
 
-# defining minimal and maximal radius
-min_r = 22
-max_r = 38
 
-coins = cv2.imread('input_image/coins.jpg', 1)
-coins_height, coins_width, coins_channel = coins.shape
+def edge_detect_coins():
+    """
+    import the coins.jpg image and detect the edges of the coins.
+    """
 
-# optimisation by decreasing the size of image, resulting in 4x faster run time
-coins_resized = cv2.resize(coins, (int(coins_width/2), int(coins_height/2)))
+    coins = cv2.imread('input_image/coins.jpg', 1)
+    coins_height, coins_width, coins_channel = coins.shape
 
-# blur to optimise edge finding
-coins_blurred = cv2.GaussianBlur(coins_resized, (5, 5), cv2.BORDER_DEFAULT)
+    # optimisation by decreasing the size of image, resulting in 4x faster run time
+    coins_resized = cv2.resize(coins, (int(coins_width/2), int(coins_height/2)))
 
-# used Canny to find the edge
-coins_edge = cv2.Canny(coins_blurred, 127, 255)
+    # blur to optimise edge finding
+    coins_blurred = cv2.GaussianBlur(coins_resized, (5, 5), cv2.BORDER_DEFAULT)
 
-# obtain the image size
-max_height, max_width, channel = coins_resized.shape
+    # used Canny to find the edge
+    coins_edge = cv2.Canny(coins_blurred, 127, 255)
 
-start_x = 0
-start_y = 0
-
-edge_threshold = 0.35  # how many pixels need to pass to be considered a coin edge
-pixel_threshold = 255 * 0.123  # the min value of pixel to be considered edge
-next_circle_step = 1  # the amount of pixels to move to start comparing again
-coin_detection = []
+    return coins_edge
 
 
 def coin_center_detect():
+    """
+    aim is to find the edges, find the radius of the coin and save the coordinates of the centers.
+    """
+
+    # defining minimal and maximal radius, specified to the coins.jpg
+    min_r = 22
+    max_r = 38
+
+    # image with edges of coins detected
+    coins_edge = edge_detect_coins()
+
+    # obtain the image size
+    max_height, max_width = coins_edge.shape
+
+    edge_threshold = 0.35  # how many pixels need to pass to be considered a coin edge
+    pixel_threshold = 255 * 0.123  # the min value of pixel to be considered edge
+    next_circle_step = 1  # the amount of pixels to move to start comparing again
+    coin_detection = []
+
     # draw circles
     for radius in range(min_r, max_r):
         img_circle = np.zeros((radius * 2, radius * 2, 1), np.uint8)
@@ -57,29 +70,29 @@ def coin_center_detect():
         print(('radius', radius))
 
         # move circle through image
-        for starting_y in range(0, max_height - 2 * radius, next_circle_step):
-            for starting_x in range(0, max_width - 2 * radius, next_circle_step):
+        for start_y in range(0, max_height - 2 * radius, next_circle_step):
+            for start_x in range(0, max_width - 2 * radius, next_circle_step):
                 count = 0
 
-                # cycle through the image of circle
+                # cycle through the coordinates of circle
                 for (x, y) in circle_pixels:
-                    image_y = starting_y + y
-                    image_x = starting_x + x
+                    image_y = start_y + y
+                    image_x = start_x + x
 
                     if coins_edge[image_y][image_x] >= pixel_threshold:
                         count += 1
 
                 if count > 50:
                     percentage = round(count / circumference * 100, 2)
-                    coor_x = starting_x + radius
-                    coor_y = starting_y + radius
+                    coor_x = start_x + radius
+                    coor_y = start_y + radius
                     print(('candidate', coor_x, coor_y, radius, percentage))
 
                 if (count / circumference) > edge_threshold:
-                    coor_x = starting_x + radius
-                    coor_y = starting_y + radius
+                    coor_x = start_x + radius
+                    coor_y = start_y + radius
                     coin_detection.append((coor_x, coor_y, radius))  # center
-                    print(('-----------------', starting_x + radius, starting_y + radius, radius))
+                    print(('-----------------', start_x + radius, start_y + radius, radius))
 
     return coin_detection
 
