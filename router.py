@@ -1,7 +1,7 @@
 """
 Routing correct arguments to start correct functions
 """
-from image_analysis.coin_recognition import circle_coins, compare_circle_detection
+from image_analysis.coin_detection import circle_coins, compare_circle_detection
 from image_processing.bitwise_operations import bitwise
 from image_processing.blend import blend
 from image_processing.convo import create_transformed_outputs
