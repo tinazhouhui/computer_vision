@@ -7,7 +7,7 @@ import cv2
 import numpy as np
 
 def detect_coins():
-    coins = cv2.imread('../input_image/koruny.jpg', 1)
+    coins = cv2.imread('../input_image/koruny_black1.jpg', 1)
     width, height, channel = coins.shape
 
     if width < height:
@@ -16,16 +16,16 @@ def detect_coins():
         short = height
 
     gray = cv2.cvtColor(coins, cv2.COLOR_BGR2GRAY)
-    img = cv2.medianBlur(gray, 9)
+    img = cv2.medianBlur(gray, 13)
     circles = cv2.HoughCircles(
         img,  # source image
         cv2.HOUGH_GRADIENT,  # type of detection
         1,
-        40,
-        param1=70,
-        param2=50,
-        minRadius=30,  # minimal distance between two centers
-        maxRadius=short,  # max distance between two centers
+        60,
+        param1=100,
+        param2=80,
+        minRadius=30,  # minimal radius
+        maxRadius=350,  # max radius
     )
 
     coins_copy = coins.copy()
@@ -41,7 +41,7 @@ def detect_coins():
             2,
         )
 
-    cv2.imwrite("../output_image/coin_detection/koruny_test_Hough.jpg", coins_detected)
+    cv2.imwrite("../output_image/coin_amount/koruny_test_Hough.jpg", coins_detected)
 
     return circles
 
@@ -95,10 +95,10 @@ def calculate_amount():
         coordinates.append([x_coor, y_coor])
 
     smallest = min(radius)
-    tolerance = 0.03
+    tolerance = 0.0375
     total_amount = 0
 
-    coins_circled = cv2.imread('../output_image/coin_detection/koruny_test_Hough.jpg', 1)
+    coins_circled = cv2.imread('../output_image/coin_amount/koruny_test_Hough.jpg', 1)
     font = cv2.FONT_HERSHEY_SIMPLEX
 
     for coin in circles[0]:
@@ -110,14 +110,16 @@ def calculate_amount():
             if abs(ratio_to_check - koruny[koruna]['ratio']) <= tolerance:
                 koruny[koruna]['count'] += 1
                 total_amount += koruny[koruna]['value']
-                cv2.putText(coins_circled, str(value), (int(coor_x), int(coor_y)), font, 1,
-                            (255, 255, 255), 2)
+                cv2.putText(coins_circled, str(value), (int(coor_x), int(coor_y)), font, 3,
+                            (255, 0, 255), 4)
 
     print(total_amount)
     print(koruny)
 
 
-    cv2.imwrite("../output_image/coin_detection/koruny_hodnota.jpg", coins_circled)
+    cv2.imwrite("../output_image/coin_amount/koruny_hodnota.jpg", coins_circled)
 
 
-calculate_amount()
+
+if __name__ == "__main__":
+    calculate_amount()
