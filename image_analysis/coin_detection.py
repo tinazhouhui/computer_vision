@@ -12,13 +12,17 @@ import cv2
 import numpy as np
 import math
 
+coins = cv2.imread('input_image/coins.jpg', 1)
+
+# defining minimal and maximal radius, specified to the coins.jpg
+min_r = 22
+max_r = 38
 
 def edge_detect_coins():
     """
     import the coins.jpg image and detect the edges of the coins.
     """
 
-    coins = cv2.imread('input_image/coins.jpg', 1)
     coins_height, coins_width, coins_channel = coins.shape
 
     # optimisation by decreasing the size of image, resulting in 4x faster run time
@@ -30,6 +34,9 @@ def edge_detect_coins():
     # used Canny to find the edge
     coins_edge = cv2.Canny(coins_blurred, 127, 255)
 
+    cv2.imwrite("output_image/coins_blurred.jpg", coins_blurred)
+    cv2.imwrite("output_image/coins_edge.jpg", coins_edge)
+
     return coins_edge
 
 
@@ -38,10 +45,6 @@ def coin_center_detect():
     aim is to find the edges, find the radius of the coin and save the coordinates of the centers.
     """
 
-    # defining minimal and maximal radius, specified to the coins.jpg
-    min_r = 22
-    max_r = 38
-
     # image with edges of coins detected
     coins_edge = edge_detect_coins()
 
@@ -49,7 +52,7 @@ def coin_center_detect():
     max_height, max_width = coins_edge.shape
 
     edge_threshold = 0.35  # how many pixels need to pass to be considered a coin edge
-    pixel_threshold = 255 * 0.123  # the min value of pixel to be considered edge
+    intensity_threshold = 255 * 0.123  # the min value of pixel intensity to be considered edge
     next_circle_step = 1  # the amount of pixels to move to start comparing again
     coin_detection = []
 
@@ -79,7 +82,7 @@ def coin_center_detect():
                     image_y = start_y + y
                     image_x = start_x + x
 
-                    if coins_edge[image_y][image_x] >= pixel_threshold:
+                    if coins_edge[image_y][image_x] >= intensity_threshold:
                         count += 1
 
                 if count > 50:
@@ -106,8 +109,7 @@ def circle_coins():
         coins_detected = cv2.circle(coins_copy, (x_coor*2, y_coor*2), detected_radius*2, (0, 0, 255), 1)
 
     cv2.imwrite("output_image/coin_detection/coins_detected.jpg", coins_detected)
-    cv2.imwrite("output_image/coins_blurred.jpg", coins_blurred)
-    cv2.imwrite("output_image/coins_edge.jpg", coins_edge)
+
     # cv2.imwrite("output_image/coins_resized.jpg", coins_resized)
 
 
