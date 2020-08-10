@@ -7,18 +7,18 @@ import cv2
 import numpy as np
 
 def detect_coins():
-    coins = cv2.imread('../input_image/koruny_black2.jpg', 1)
+    coins = cv2.imread('../input_image/koruny.jpg', 1)
 
     gray = cv2.cvtColor(coins, cv2.COLOR_BGR2GRAY)
-    img = cv2.medianBlur(gray, 11)
+    img = cv2.medianBlur(gray, 7)
     circles = cv2.HoughCircles(
         img,  # source image
         cv2.HOUGH_GRADIENT,  # type of detection
         1,
-        200,
+        50,
         param1=100,
-        param2=80,
-        minRadius=100,  # minimal radius
+        param2=50,
+        minRadius=10,  # minimal radius
         maxRadius=380,  # max radius
     )
 
@@ -41,37 +41,37 @@ def detect_coins():
 
 def calculate_amount():
     koruny = {
-        "jednokorun": {
+        "1 CZK": {
             "value": 1,
             "radius": 20,
             "ratio": 1,
             "count": 0,
         },
-        "dvoukorun": {
+        "2 CZK": {
             "value": 2,
             "radius": 21.5,
             "ratio": 1.075,
             "count": 0,
         },
-        "pětikorun": {
+        "5 CZK": {
             "value": 5,
             "radius": 23,
             "ratio": 1.15,
             "count": 0,
         },
-        "desetikorun": {
+        "10 CZK": {
             "value": 10,
             "radius": 24.5,
             "ratio": 1.225,
             "count": 0,
         },
-        "dvacetikorun": {
+        "20 CZK": {
             "value": 20,
             "radius": 26,
             "ratio": 1.3,
             "count": 0,
         },
-        "padesátikorun": {
+        "50 CZK": {
             "value": 50,
             "radius": 27.5,
             "ratio": 1.375,
@@ -104,11 +104,13 @@ def calculate_amount():
             if abs(ratio_to_check - koruny[koruna]['ratio']) <= tolerance:
                 koruny[koruna]['count'] += 1
                 total_amount += koruny[koruna]['value']
-                cv2.putText(coins_circled, str(value), (int(coor_x), int(coor_y)), font, 6,
-                            (0, 0, 0), 6)
+                cv2.putText(coins_circled, str(value), (int(coor_x), int(coor_y)), font, 1,
+                            (0, 0, 0), 4)
 
-    print(total_amount)
-    print(koruny)
+    print(f"The total amount is {total_amount} CZK")
+    for koruna in koruny:
+        pieces = koruny[koruna]['count']
+        print(f"{koruna} = {pieces}x")
 
 
     cv2.imwrite("../output_image/coin_amount/koruny_hodnota.jpg", coins_circled)
