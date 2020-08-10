@@ -7,29 +7,23 @@ import cv2
 import numpy as np
 
 def detect_coins():
-    coins = cv2.imread('../input_image/koruny_black1.jpg', 1)
-    width, height, channel = coins.shape
-
-    if width < height:
-        short = width
-    else:
-        short = height
+    coins = cv2.imread('../input_image/koruny_black2.jpg', 1)
 
     gray = cv2.cvtColor(coins, cv2.COLOR_BGR2GRAY)
-    img = cv2.medianBlur(gray, 13)
+    img = cv2.medianBlur(gray, 11)
     circles = cv2.HoughCircles(
         img,  # source image
         cv2.HOUGH_GRADIENT,  # type of detection
         1,
-        60,
+        200,
         param1=100,
         param2=80,
-        minRadius=30,  # minimal radius
-        maxRadius=350,  # max radius
+        minRadius=100,  # minimal radius
+        maxRadius=380,  # max radius
     )
 
     coins_copy = coins.copy()
-    radius = []
+
 
     for detected_circle in circles[0]:
         x_coor, y_coor, detected_radius = detected_circle
@@ -37,8 +31,8 @@ def detect_coins():
             coins_copy,
             (int(x_coor), int(y_coor)),
             int(detected_radius),
-            (0, 0, 255),
-            2,
+            (0, 255, 0),
+            4,
         )
 
     cv2.imwrite("../output_image/coin_amount/koruny_test_Hough.jpg", coins_detected)
@@ -110,8 +104,8 @@ def calculate_amount():
             if abs(ratio_to_check - koruny[koruna]['ratio']) <= tolerance:
                 koruny[koruna]['count'] += 1
                 total_amount += koruny[koruna]['value']
-                cv2.putText(coins_circled, str(value), (int(coor_x), int(coor_y)), font, 3,
-                            (255, 0, 255), 4)
+                cv2.putText(coins_circled, str(value), (int(coor_x), int(coor_y)), font, 6,
+                            (0, 0, 0), 6)
 
     print(total_amount)
     print(koruny)

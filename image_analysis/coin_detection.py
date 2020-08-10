@@ -123,8 +123,8 @@ def hough_circle_detection():
         40,
         param1=50,
         param2=30,
-        minRadius=min_r*2,  # minimal distance between two centers
-        maxRadius=max_r*2,  # max distance between two centers
+        minRadius=min_r*2,  # minimal radius
+        maxRadius=max_r*2,  # max radius
     )
 
     coins_copy = coins.copy()
